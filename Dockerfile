@@ -17,7 +17,7 @@ RUN mkdir /usr/sdl/
 WORKDIR /usr/sdl
     
 # Download and unpack SDL Core from github. The 
-RUN curl -sSL https://github.com/smartdevicelink/sdl_core/archive/develop.tar.gz \ 
+RUN curl -sSL https://github.com/smartdevicelink/sdl_core/archive/master.tar.gz \ 
         | tar -v -C ./ -xz
 
 # Install dependencies
@@ -36,7 +36,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         sqlite3     
 
 # Change directory to the unpacked SDL Core sourcecode
-WORKDIR sdl_core-develop
+WORKDIR sdl_core-master
 
 # Generate our Makefile
 RUN cmake $(pwd)
