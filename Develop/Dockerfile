@@ -51,7 +51,7 @@ RUN cp bin/mykey.pem src/appMain && cp bin/mycert.pem src/appMain
 WORKDIR src/appMain/
 
 # Copy SDL Core start script into container
-COPY start.sh start.sh
+COPY ../start.sh start.sh
 
 # Configure logger
 RUN ldconfig
