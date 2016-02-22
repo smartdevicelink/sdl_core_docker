@@ -15,10 +15,10 @@ echo "Changing smartDeviceLink.ini HMI ServerAddress to ${SDL_CORE_IP}"
 # Replace the IP address in smartDeviceLink.ini with the machines IP address
 perl -pi -e 's/127.0.0.1/'$SDL_CORE_IP'/g' /usr/sdl/src/appMain/smartDeviceLink.ini
 
-echo "Changing Flags.js HMI ServerAddress to ${SDL_HMI_IP}"
+echo "Changing Flags.js HMI ServerAddress to ${HMI_WEBSOCKET_ADDRESS}"
 
-# Replace IP in flags file to match the machine's IP address
-perl -pi -e 's/127.0.0.1/'$SDL_HMI_IP'/g' /var/www/app/Flags.js
+# Replace IP and Port in flags file to match the machine's IP address
+perl -pi -e 's/127.0.0.1:8087/'$HMI_WEBSOCKET_ADDRESS'/g' /var/www/app/Flags.js
 
 # Start supervisord
 /usr/bin/supervisord

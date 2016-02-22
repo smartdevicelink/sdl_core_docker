@@ -12,7 +12,7 @@ MAINTAINER Corey Maylone version:0.1
 
 ENV SDL_CORE_BRANCH develop
 ENV SDL_CORE_IP 127.0.0.1
-ENV SDL_HMI_IP 127.0.0.1
+ENV HMI_WEBSOCKET_ADDRESS 127.0.0.1:8087
 
 # Create our working directory and Download SDL Core from github   
 RUN mkdir /usr/sdl/ \
