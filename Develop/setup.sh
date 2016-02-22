@@ -4,16 +4,11 @@
 # The IPis required to be replaced for the websocket connection with the HMI to function.
 
 # # Get the machine's IP address
-# IP="$(ip addr show eth0 | grep "inet\b" | awk '{print $2}' | cut -d/ -f1)"
-# if [ -z "{$IP// }" ]
-#     then
-#         exit 1;
-# fi
-
+IP="$(ip addr show ${SDL_CORE_NETWORK_INTERFACE} | grep "inet\b" | awk '{print $2}' | cut -d/ -f1)"
 echo "Changing smartDeviceLink.ini HMI ServerAddress to ${SDL_CORE_IP}"
 
 # Replace the IP address in smartDeviceLink.ini with the machines IP address
-perl -pi -e 's/127.0.0.1/'$SDL_CORE_IP'/g' /usr/sdl/src/appMain/smartDeviceLink.ini
+perl -pi -e 's/127.0.0.1/'$IP'/g' /usr/sdl/src/appMain/smartDeviceLink.ini
 
 echo "Changing Flags.js HMI ServerAddress to ${HMI_WEBSOCKET_ADDRESS}"
 
