@@ -10,15 +10,17 @@ FROM buildpack-deps:jessie-curl
 
 MAINTAINER Corey Maylone version:0.1
 
-# Create our working directory    
-RUN mkdir /usr/sdl/
+ENV SDL_CORE_BRANCH master
+ENV DOCKER_MACHINE_IP 127.0.0.1
 
-# Change directory to our newly created working directory
-WORKDIR /usr/sdl
+# Create our working directory and Download SDL Core from github   
+RUN mkdir /usr/sdl/ \
+    && curl -sSL https://github.com/smartdevicelink/sdl_core/archive/$SDL_CORE_BRANCH.tar.gz \
+    | tar -v -C /usr/sdl -xz --strip-components 1
     
-# Download and unpack SDL Core from github. The 
-RUN curl -sSL https://github.com/smartdevicelink/sdl_core/archive/master.tar.gz \ 
-        | tar -v -C ./ -xz
+# Download SDL HMI from github
+RUN curl -sSL https://github.com/smartdevicelink/sdl_hmi/archive/master.tar.gz \
+    | tar -v -C /var/www -xz --strip-components 1
 
 # Install dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -27,40 +29,50 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         libavahi-client-dev \
         libavahi-common-dev \
         libbluetooth-dev \
-        liblog4cxx* \
         libudev-dev \
         libsqlite3-dev \
         libssl-dev \
+        nginx \
         python \
         sudo \
+        supervisor \
         sqlite3     
 
 # Change directory to the unpacked SDL Core sourcecode
-WORKDIR sdl_core-master
+WORKDIR /usr/sdl/
 
-# Generate our Makefile
-RUN cmake $(pwd)
-
-# Compile and install
-RUN make && make install
-
+# Generate our Makefile, compile it and install
+RUN cmake . \
+    && make \
+    && make install
+    
 # Copy required key and certification
-RUN cp bin/mykey.pem src/appMain && cp bin/mycert.pem src/appMain
+RUN cp bin/mykey.pem src/appMain \ 
+    && cp bin/mycert.pem src/appMain
 
 # Change directory to the main folder for SDL Core
 WORKDIR src/appMain/
 
 # Copy SDL Core start script into container
-COPY ../start.sh start.sh
+COPY setup.sh setup.sh
 
 # Configure logger
 RUN ldconfig
 
-# Expose SDL Core's primary port. Used to communicate with the SDL Core instance over wifi
-EXPOSE 12345 
+# Delete default nginx configuration
+RUN rm -v /etc/nginx/nginx.conf
 
-# Expose SDL Core's Web Socket port. Used to comunicate with the HMI
-EXPOSE 8087
+# Copy our new configuration
+COPY nginx.conf /etc/nginx/
 
-# Run the start script the will launch SDL Core!
-CMD ["/bin/bash", "start.sh"]
+# Copy supervisord config
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# Expose the following ports
+#   8087:  Expose SDL Core's Web Socket port. Used to comunicate with the HMI
+#   8080:  Returns index.html of HMI Core
+#   12345: Expose SDL Core's primary port. Used to communicate with the SDL Core instance over wifi
+EXPOSE 8087 8080 12345 
+
+# Run the start script that will launch SDL Core!
+CMD ["/bin/bash", "setup.sh"]
