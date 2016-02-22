@@ -20,7 +20,8 @@ RUN mkdir /usr/sdl/ \
     | tar -v -C /usr/sdl -xz --strip-components 1
     
 # Download SDL HMI from github
-RUN curl -sSL https://github.com/smartdevicelink/sdl_hmi/archive/master.tar.gz \
+RUN mkdir /var/www \
+    && curl -sSL https://github.com/smartdevicelink/sdl_hmi/archive/master.tar.gz \
     | tar -v -C /var/www -xz --strip-components 1
 
 # Install dependencies
