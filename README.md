@@ -13,13 +13,14 @@ Docker build for [SDL Core](https://github.com/smartdevicelink/sdl_core).
    
    *Master*
    ```bash
-   $ docker run -d -P --name Name-of-my-container SmartDeviceLink/Core:latest
+   $ docker run -d -P -p 8087:8087 --name Name-of-my-container SmartDeviceLink/Core:latest
    ```
    *Develop*
    ```bash
-   $ docker run -d -P --name Name-of-my-container SmartDeviceLink/Core:develop
+   $ docker run -d -P -p 8087:8087 --name Name-of-my-container SmartDeviceLink/Core:develop
    ```
-### Access HMI by figure out which port it was automatically assigned.
+   
+### Access HMI by figuring out which port it was automatically assigned
    
 Docker automatically creates a port mapping to the following ports in the container:
    
