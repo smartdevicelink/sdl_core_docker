@@ -1,8 +1,5 @@
 # ###########################################################################################
 # Basic docker build of SDL_Core https://github.com/smartdevicelink/sdl_core
-#
-# NOTE: The container run the container using host networking by using the --net="host" flag.
-#
 # ###########################################################################################
 
 # This image is based of debian with curl preinstalled
@@ -73,7 +70,7 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 # Expose the following ports
 #   8087:  Expose SDL Core's Web Socket port. Used to comunicate with the HMI
 #   8080:  Returns index.html of HMI Core
-#   12345: Expose SDL Core's primary port. Used to communicate with the SDL Core instance over wifi
+#   12345: Expose SDL Core's primary port. Used to communicate with the SDL Core instance over TCP
 EXPOSE 8087 8080 12345 
 
 # Run the start script that will launch SDL Core!
