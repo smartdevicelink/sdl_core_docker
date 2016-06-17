@@ -29,6 +29,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         libavahi-common-dev \
         libbluetooth-dev \
         libudev-dev \
+        libusb-1.0-0-dev \
         libsqlite3-dev \
         libssl-dev \
         nginx \
