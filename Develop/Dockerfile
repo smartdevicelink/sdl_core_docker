@@ -45,10 +45,8 @@ WORKDIR /usr/sdl/
 RUN cmake . \
     && make \
     && make install
-    
-# Copy required key and certification
-RUN cp bin/mykey.pem src/appMain \ 
-    && cp bin/mycert.pem src/appMain
+
+RUN export LD_LIBRARY_PTH=./bin
 
 # Change directory to the main folder for SDL Core
 WORKDIR src/appMain/
@@ -67,6 +65,8 @@ COPY nginx.conf /etc/nginx/
 
 # Copy supervisord config
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+ENV LD_LIBRARY_PATH /usr/sdl/bin
 
 # Expose the following ports
 #   8087:  Expose SDL Core's Web Socket port. Used to comunicate with the HMI

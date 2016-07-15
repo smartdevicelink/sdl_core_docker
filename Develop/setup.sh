@@ -8,7 +8,7 @@ IP="$(ip addr show ${SDL_CORE_NETWORK_INTERFACE} | grep "inet\b" | awk '{print $
 echo "Changing smartDeviceLink.ini HMI ServerAddress to ${SDL_CORE_IP}"
 
 # Replace the IP address in smartDeviceLink.ini with the machines IP address
-perl -pi -e 's/127.0.0.1/'$IP'/g' /usr/sdl/src/appMain/smartDeviceLink.ini
+perl -pi -e 's/127.0.0.1/'$IP'/g' /usr/sdl/bin/smartDeviceLink.ini
 
 echo "Changing Flags.js HMI ServerAddress to ${HMI_WEBSOCKET_ADDRESS}"
 
