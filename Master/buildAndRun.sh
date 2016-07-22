@@ -1,6 +1,0 @@
-IMAGE_NAME="docker-master-test"
-CONTAINER_NAME="core"
-MACHINE_IP="192.168.1.56"
-docker build -t $IMAGE_NAME .
-docker stop $CONTAINER_NAME && docker rm $CONTAINER_NAME
-docker run -d -p 12345:12345 -p 8087:8087 -p 8080:8080 -p 8090:8090 -e "HMI_WEBSOCKET_ADDRESS=$MACHINE_IP:8087" --name $CONTAINER_NAME $IMAGE_NAME
