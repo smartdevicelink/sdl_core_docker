@@ -7,7 +7,7 @@ Docker build for [SDL Core](https://github.com/smartdevicelink/sdl_core).
 
 ### Prerequisites
 
-* [Install Docker](https://docs.docker.com/engine/installation/)
+* [Install Docker > 1.8](https://docs.docker.com/engine/installation/)
 
 ### Create a new Docker container
    
@@ -30,7 +30,7 @@ Docker automatically creates a port mapping to the following ports in the contai
 | 8080           | Serves static web HMI                                       |
 | 12345          | SDL Core's primary port                                     |
 
-Docker will automatically map the exposed ports for you when you use the `-P` flag. If the Websocket port `8087` is mapped to anything other than `8087` in the cotainer then you must supply the `HMI_WEBSOCKET_ADDRESS` enviroment vairable when docker is ran. This is required so that the HMI can communicate with Core. For example if you wanted to map port `9001` of your machine to the container's port `8087` then you would set the `HMI_WEBSOCKET_ADDRESS` using the `-e` flag as follows:
+Docker will automatically map the exposed ports for you when you use the `-P` flag. If the Websocket port `8087` is mapped to anything other than `8087` in the container then you must supply the `HMI_WEBSOCKET_ADDRESS` enviroment variable when Docker is ran. This is required so that the HMI can communicate with Core. For example if you wanted to map port `9001` of your machine to the container's port `8087` then you would set the `HMI_WEBSOCKET_ADDRESS` using the `-e` flag as follows:
 
 ```bash
 $ docker run -d -P -p 9001:8087 -e "HMI_WEBSOCKET_ADDRESS=127.0.0.1:9001"  --name core smartdevicelink/core:latest

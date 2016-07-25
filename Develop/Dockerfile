@@ -2,7 +2,7 @@
 # Basic docker build of SDL_Core https://github.com/smartdevicelink/sdl_core
 # ###########################################################################################
 
-# This image is based of debian with curl preinstalled
+# This image is based of debian with git preinstalled
 FROM buildpack-deps:scm
 
 MAINTAINER Corey Maylone version:1.0
