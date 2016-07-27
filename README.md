@@ -13,11 +13,11 @@ Docker build for [SDL Core](https://github.com/smartdevicelink/sdl_core).
    
    *Master*
    ```bash
-   $ docker run -d -p 12345:12345 -p 8080:8080 -p 8087:8087 --name core smartdevicelink/core:latest
+   $ docker run -d -p 12345:12345 -p 8080:8080 -p 8087:8087 -p 3001:3001 --name core smartdevicelink/core:latest
    ```
    *Develop*
    ```bash
-   $ docker run -d -p 12345:12345 -p 8080:8080 -p 8087:8087 --name core smartdevicelink/core:develop
+   $ docker run -d -p 12345:12345 -p 8080:8080 -p 8087:8087 -p 3001:3001 --name core smartdevicelink/core:develop
    ```
    
 ### Ports
@@ -26,6 +26,7 @@ Docker automatically creates a port mapping to the following ports in the contai
    
 | container port | description                                                 |
 |----------------|-------------------------------------------------------------|
+| 3001           | Port exposing core's file system                            |        
 | 8087           | Websocket port used by the HMI to communicate with SDL Core |
 | 8080           | Serves static web HMI                                       |
 | 12345          | SDL Core's primary port                                     |
@@ -35,6 +36,10 @@ Docker will automatically map the exposed ports for you when you use the `-P` fl
 ```bash
 $ docker run -d -P -p 9001:8087 -e "HMI_WEBSOCKET_ADDRESS=127.0.0.1:9001"  --name core smartdevicelink/core:latest
 ```
+
+## Accessing SDL Core's files remotely
+
+Typically SDL Core and its corresponding HMI exist on the same machine. For development this is not always the case. In the Docker image there is an NGINX server that exposes the contents of the storage folder `/usr/sdl/bin/storage` over port `3001`. These contents can be access using the absolute path as it existis on the core machine. For example if core is running on your local machine, a SetAppIcon request would respond with the value `/usr/sdl/bin/storage/SyncProxyTester584421907/icon.png`. The server on port `3001` can be used to access this file remotely: `http://localhost:3001/usr/sdl/bin/storage/SyncProxyTester584421907/icon.png/`
 
 ## Build image from DockerFile
 **Note:** SDL Core will take some time to compile
