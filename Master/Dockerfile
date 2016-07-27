@@ -62,10 +62,11 @@ COPY nginx.conf /etc/nginx/
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Expose the following ports
+#   3001: Exposes Core's file system
 #   8087:  Expose SDL Core's Web Socket port. Used to comunicate with the HMI
 #   8080:  Returns index.html of HMI Core
 #   12345: Expose SDL Core's primary port. Used to communicate with the SDL Core instance over TCP
-EXPOSE 8080 8087 12345 
+EXPOSE 3001 8080 8087 12345 
 
 # Run the start script that will launch SDL Core!
 ENTRYPOINT $PWD/setup.sh
